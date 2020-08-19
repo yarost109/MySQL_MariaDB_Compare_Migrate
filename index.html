@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>86 vs 87 DB Changes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+      }
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script type="text/javascript" src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container-fluid">
+
+<div id="testmodal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to commit all changes to the database?</p>
+                <p class="text-warning"><small>This action CANNOT be un done.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="just_load_please" class="btn btn-primary">Commit motherfucker!</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="testmodal-1" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to commit all changes to the database?</p>
+                <p class="text-warning"><small>This action CANNOT be un done.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Commit motherfucker!</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="element" class="btn btn-warning show-modal">Commit changes</div>
+
+
+
+      <h2>86 vs 87</h2>
+	<hr>
+      <p>Changes - Last updated at Tue Dec 24 13:51:45 IST 2019</p>
+      
+      <div id='table-container'></div>
+
+    </div><!-- /.container -->
+
+<div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="loader"></div>
+        <div clas="loader-txt">
+          <p>Syncing database from 86 to 87 <br><br><small>Yaniv is gay</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.csv.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="js/csv_to_html_table.js"></script>
+    <script type="text/javascript" src="js/jquery-duplifer.js"></script>
+    <script type="text/javascript" src="papaparse.js"></script>
+    <script src="js/jquery.simple-checkbox-table.js"></script>
+
+    <script type="text/javascript">
+
+      $(document).ready(function () {
+	$(".find-duplicates").duplifer();
+      });
+
+      function format_link(link){
+        if (link)
+          return "<a href='" + link + "' target='_blank'>" + link + "</a>";
+        else
+          return "";
+      }
+
+      CsvToHtmlTable.init({
+        csv_path: 'data/diff.csv',
+        element: 'table-container', 
+        allow_download: true,
+        csv_options: {separator: '}', delimiter: ','},
+        datatables_options: {"paging": false},
+      });
+
+function selectColor(ctrl){
+    $(ctrl).closest('tr').toggleClass('active');
+}
+
+    </script>
+<style>
+td {
+    width:100px;
+    border:1px solid black; 
+    height:2em;
+}
+table {
+    border-collapse:collapse;
+    font-size:15px;
+}
+.subrow {        
+    font-size:0;
+    transition:font-size 400ms;
+}
+td > span {     
+    float:right;
+    width:1em;
+    height:1em;       
+    position:relative;
+    margin-right:3px;    
+}
+td > span:before {
+    content:'';
+    position:absolute;
+    width:80%;
+    height:0;
+    left:10%;
+    top:50%;
+    margin-top:-1px;
+    border-top:2px solid black;     
+    border-color:inherit;
+}
+td > span.collapsed:after {
+    content:'';
+    position:absolute;
+    height:80%;
+    width:0;
+    margin-left:-1px;
+    border-left:2px solid black;
+    border-color:inherit;    
+    left:50%;
+    top:10%;
+}
+td > span:hover {
+    border-color:orange;
+}
+</style>
+  </body>
+</html>
